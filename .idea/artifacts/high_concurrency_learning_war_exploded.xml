@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="high_concurrency_learning:war exploded">
+    <output-path>$PROJECT_DIR$/target/high_concurrency_learning</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="high_concurrency_learning" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/high_concurrency_learning/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="high_concurrency_learning/web/Web" />
+    </root>
+  </artifact>
+</component>
