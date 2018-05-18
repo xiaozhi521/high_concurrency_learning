@@ -1,14 +1,12 @@
 package com.cn.second;
 
-import sun.awt.windows.ThemeReader;
-
 /**
  * 线程中断
  *
  */
-public class InterruptThread {
+public class InterruptThread_2_2_3 {
     public static void main(String[] args) throws InterruptedException {
-        InterruptThread.interruptThreadMethod2();
+        InterruptThread_2_2_3.interruptThreadMethod2();
     }
 
     /**

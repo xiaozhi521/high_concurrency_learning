@@ -6,7 +6,7 @@ package com.cn.second;
  *  除了 wait() 可以被唤醒之外，另外一个主要的区别就是 wait() 方法会释放目标对象的锁，
  *  而 Thread.sleep() 方法不会释放任何资源
  */
-public class Wait_Notify {
+public class Wait_Notify_2_2_4 {
     final static Object object = new Object();
     public  static class T1 extends Thread{
         @Override

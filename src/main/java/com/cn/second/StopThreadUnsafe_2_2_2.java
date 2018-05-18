@@ -20,7 +20,7 @@ package com.cn.second;
 *               break;
 *            }
  */
-public class StopThreadUnsafe {
+public class StopThreadUnsafe_2_2_2 {
 
     public  static User u = new User();
     public static class User{
