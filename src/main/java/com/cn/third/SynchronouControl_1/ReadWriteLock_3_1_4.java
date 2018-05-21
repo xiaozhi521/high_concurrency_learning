@@ -1,5 +1,6 @@
 package com.cn.third.SynchronouControl_1;
 
+import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -26,6 +27,63 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class ReadWriteLock_3_1_4 {
     private static Lock lock = new ReentrantLock();
     private static ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
-//    private static Lock readLock
+    private static Lock readLock = reentrantReadWriteLock.readLock();
+    private static Lock writeLock = reentrantReadWriteLock.writeLock();
+    private int value;
 
+    public Object handleRead(Lock lock) throws InterruptedException {
+        try {
+            //模拟读操作
+            lock.lock();
+            //读操作的耗时越多，读写锁的优势就越明显
+            Thread.sleep(1000);
+            return value;
+        }finally {
+            lock.unlock();
+        }
+    }
+    public void handleWrite(Lock lock,int index) throws InterruptedException {
+        try {
+            //模拟写操作
+            lock.lock();
+            Thread.sleep(1000);
+            value = index;
+        }finally {
+            lock.unlock();
+        }
+    }
+
+    public static void main(String[] args) {
+        final ReadWriteLock_3_1_4 demo = new ReadWriteLock_3_1_4();
+        Runnable readRunnale = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //模拟使用读写锁
+                    demo.handleRead(readLock);
+                    //模拟使用重入锁
+//                    demo.handleRead(lock);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        final Runnable writeRunnale = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    demo.handleWrite(writeLock,new Random().nextInt());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        for(int i = 0; i < 18; i++){
+            new Thread(readRunnale).start();
+        }
+        for(int i = 18; i < 20; i++){
+            new Thread(writeRunnale).start();
+        }
+
+    }
 }
