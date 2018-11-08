@@ -1,4 +1,4 @@
-package com.cn.excutor;
+package com.cn.thread_pool_executor;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
