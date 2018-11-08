@@ -14,13 +14,13 @@
 分钟（MINUTES）、毫秒（MILLISECONDS）、微秒（MICROSECONDS，千分之一毫秒）、
 纳秒（NANOSECONDS，千分之一微秒）
 - 5、runnableTaskQueue（任务队列）：用于保存等待执行的任务的阻塞队列。可以选择以下几个阻塞队列
- - ArrayBlockingQueue：是一个基于数组结构的有界阻塞队列，此队列按FIFO（先进先出）原则对元素进行排序
- - LinkedBlockingQueue：一个基于链表结构的阻塞队列，此队列按FIFO排序元素，吞吐量通常要高于ArrayBlockingQueue。
+  - ArrayBlockingQueue：是一个基于数组结构的有界阻塞队列，此队列按FIFO（先进先出）原则对元素进行排序
+  - LinkedBlockingQueue：一个基于链表结构的阻塞队列，此队列按FIFO排序元素，吞吐量通常要高于ArrayBlockingQueue。
         静态工厂方法Executors.newFixedThreadPool()使用了这个队列。
- - SynchronousQueue：一个不存储元素的阻塞队列。每个插入操作必须等到另一个线程调用移除操作，
+  - SynchronousQueue：一个不存储元素的阻塞队列。每个插入操作必须等到另一个线程调用移除操作，
         否则插入操作一直处于阻塞状态，吞吐量通常要高于Linked-BlockingQueue，
         静态工厂方法Executors.newCachedThreadPool使用了这个队列。
- - PriorityBlockingQueue：一个具有优先级的无限阻塞队列
+  - PriorityBlockingQueue：一个具有优先级的无限阻塞队列
 - 6、RejectedExecutionHandler（饱和策略）：当队列和线程池都满了，说明线程池处于饱和状态，那么必须采取一种策略处理提交的新任务。
  这个策略默认情况下是AbortPolicy，表示无法处理新任务时抛出异常。
  在JDK 1.5中Java线程池框架提供了以下4种策略。
@@ -81,4 +81,12 @@
  
  - 通常使用 shutdown 方法来关闭线程池
  - 如果任务不一定需要完成，则可以调用 shutdownNow 方法
+ 
+ #### 线程池的监控
+ - taskCount：线程池需要执行的任务数量
+ - completedTaskCount：线程池在运行过程中已完成的任务数量，小于或等于taskCount
+ - largestPoolSize：线程池里曾经创建过的最大线程数量。
+            通过这个数据可以知道线程池是否曾经满过，如该数值等于线程池的最大大小，则表示线程池曾经满过
+ - getPoolSize：线程池的线程数量。如果线程池不销毁的话，线程池里的线程不会自动销毁，所以这个大小只增不减
+ - getActiveCount：获取活动的线程数
  
