@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
  *  提交时，线程池中若有空闲线程，则立即执行。若没有，则新的任务会被暂存在一个任务队列中，待有线程空闲时，便处理
  *  在任务队列中的任务。
  */
-public class ThreadPoolDemo_2_1 {
+public class FixedThreadPoolDemo_2_1 {
     public static class MyTask implements Runnable{
         @Override
         public void run() {
