@@ -1,12 +1,11 @@
 package com.cn.thread_pool_executor;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
- * 无界队列
+ *  无界队列
+ *  CachedThreadPool 是大小无界的线程池，
+ *  适用于执行很多的短期异步任务的小程序，或者是负载较轻的服务器
  */
 public class ExcutorThrealPoolDemo implements Runnable {
 
@@ -27,13 +26,12 @@ public class ExcutorThrealPoolDemo implements Runnable {
     }
 
     public static void main(String[] args) {
-        BlockingQueue<Runnable> blockingQueue = new LinkedBlockingQueue<>(1);
-        ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(1,2,3L,TimeUnit.SECONDS,blockingQueue);
-
-        for (int i = 0;i < 3;i++){
-            poolExecutor.execute(new ExcutorThrealPoolDemo("任务"+i));
+        //创建无界线程池
+        ExecutorService cachedThreadPool =  Executors.newCachedThreadPool();
+        for (int i = 0;i < 5;i++){
+            cachedThreadPool.execute(new ExcutorThrealPoolDemo("任务"+i));
         }
-        poolExecutor.shutdown();
+        cachedThreadPool.shutdown();
     }
 
 
