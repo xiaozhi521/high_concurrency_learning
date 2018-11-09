@@ -1,0 +1,72 @@
+#### Excutor 主要由三大部分组成
+- 任务：任务需要实现的接口 Runnable 和 Callable
+- 任务的执行：核心接口 Excutor 及 继承 Excutor 的 ExcutorService 接口。
+
+
+      Excutor 框架有两个关键类实现了 ExcutorService 接口（ThreadPoolExecutor和ScheduledThreadPoolExecutor）
+- 异步计算的结果：包括接口 Future 及其实现类 FutureTask
+
+##### Excutor包含的主要类与接口
+- Excutor 接口：他是Excutor框架的基础，将任务的提交与任务的执行分离开来
+- ThreadPoolExcutor ： 线程池的核心实现类，用来执行被提交的任务
+- ScheduledThreadPoolExecutor：实现类，可以在给定的延迟后运行命令，或者定期执行命令
+- Future 接口及其实现类 FutureTask ：代表异步计算的结果
+- Runnable接口和Callable接口的实现类：都可以被 ThreadPoolExecutor 或 ScheduledThreadPoolExecutor 执行
+
+
+#### Excutor 框架成员
+- ThreadPoolExecutor
+  - 通常使用工厂类 Executors 来创建。有三种类型的 ThreadPoolExecutor
+  - FixedThreadPool ： 创建固定线程数的API。
+    - public static ExecutorService newFixedThreadPool(int nThreads)
+    - public static ExecutorService newFixedThreadPool(int nThreads, ThreadFactory threadFactory)
+    - 适用为了满足资源管理的需求，而需要限制当前线程数量的应用场景，适用于负载比较重的服务器
+    
+    
+        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(5);
+        使用 ThreadPoolExecutor 创建：
+        ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(5,5,0L,TimeUnit.MILLISECONDS,new LinkedBlockingQueue<>());
+  - SingleThreadExecutor：创建使用单个线程的 SingleThreadExecutor 的API
+    - 适用于需要保证顺序执行各个任务；并且在任意时间，不会有多个线程是活动的应用场景。
+    - public static ExecutorService newSingleThreadExecutor()
+    - public static ExecutorService newSingleThreadExecutor(ThreadFactory threadFactory)
+    
+    
+        ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
+        使用 ThreadPoolExecutor 创建：
+        ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(1,1,0L,TimeUnit.MILLISECONDS,new LinkedBlockingQueue<>());
+  - CachedThreadPool：创建一个根据需要创建新线程的 CachedThreadPool 的API。
+    - 是大小无界的线程池，适用于很多的短期异步任务的小程序，或者负载较轻的服务器
+    - public static ExecutorService newCachedThreadPool()
+    - public static ExecutorService newCachedThreadPool(ThreadFactory threadFactory)
+    
+    
+           ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
+           使用 ThreadPoolExecutor 创建：
+           ThreadPoolExecutor poolExecutor = 
+                new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS,new SynchronousQueue<Runnable>());
+- ScheduledThreadPoolExecutor 
+    - 通常使用工厂类Executors来创建。
+    - Executors可以创建2种类型的ScheduledThreadPoolExecutor
+        - ScheduledThreadPoolExecutor ：包含若干个线程的ScheduledThreadPoolExecutor
+            1. 创建固定个数线程的 ScheduledThreadPoolExecutor 的API
+                - public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize)
+                - public static ScheduledExecutorService newScheduledThreadPool(int corePoolSize,ThreadFactory threadFactory)
+            2. 适用于需要多个后台线程执行周期任务，同时为了满足资源管理的需求而需要限制后台线程的数量的应用场景
+        - SingleThreadScheduledExecutor ：只包含一个线程的ScheduledThreadPoolExecutor
+            1. 创建单个线程的SingleThreadScheduledExecutor的API
+                - public static ScheduledExecutorService newSingleThreadScheduledExecutor()
+                - public static ScheduledExecutorService newSingleThreadScheduledExecutor(ThreadFactory threadFactory)
+            2. 适用于需要单个后台线程执行周期任务，同时需要保证顺序地执行各个任务的应用场景
+- Future接口
+    - Future接口及其实现类 FutureTask 用来表示异步计算的结果
+    - Runnable 接口或 Callable 接口的实现类提交（submit）给ThreadPoolExecutor或
+      ScheduledThreadPoolExecutor时，ThreadPoolExecutor或ScheduledThreadPoolExecutor会向我们
+      返回一个FutureTask对象
+      1. <T> Future<T> submit(Callable<T> task) 
+      2. <T> Future<T> submit(Runnable task, T result)
+      3. Future<> submit(Runnable task)
+- Runnable接口、Callable接口
+    - 实现类，都可以被ThreadPoolExecutor或ScheduledThreadPoolExecutor执行。
+    - 区别是Runnable不会返回结果，而Callable可以返回结果
+- Executors

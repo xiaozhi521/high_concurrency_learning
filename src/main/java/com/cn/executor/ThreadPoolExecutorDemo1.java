@@ -1,4 +1,4 @@
-package com.cn.thread_pool_executor;
+package com.cn.executor;
 
 
 import java.util.concurrent.*;
@@ -18,7 +18,7 @@ import java.util.concurrent.*;
  * 	    1、增大 maximumPoolSize ，例如设置为Integer.MAX_VALUE
  * 	    2、 设置合理的 BlockingQueue 长度， 保证 maximumPoolSize + BlockingQueue 大于任务的总数
  */
-public class ExcutorDemo  implements Runnable{
+public class ThreadPoolExecutorDemo1  implements Runnable{
 
     private String name;
 
@@ -26,7 +26,7 @@ public class ExcutorDemo  implements Runnable{
     ExecutorService cachedThreadPool = Executors.newCachedThreadPool();
     ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
-    public ExcutorDemo(String name){
+    public ThreadPoolExecutorDemo1(String name){
         this.name = name;
     }
     @Override
@@ -48,7 +48,7 @@ public class ExcutorDemo  implements Runnable{
 
         for(int i = 0; i < 20; i++){
             if(!executor.isShutdown()){
-                executor.execute(new ExcutorDemo("任务" + i));
+                executor.execute(new ThreadPoolExecutorDemo1("任务" + i));
             }
         }
         Future future = executor.submit(new Callable<String>() {

@@ -1,0 +1,14 @@
+##### 3种类型的ThreadPoolExecutor 影响
+- FixedThreadPool、SingleThreadExecutor
+    1. 当线程池中的线程数达到corePoolSize后，新任务将在无界队列中等待，
+        因此线程池中的线程数不会超过corePoolSize
+    2. 由于 i ，使用无界队列时maximumPoolSize将是一个无效参数
+    3. 由于 i 和 ii ，使用无界队列时keepAliveTime将是一个无效参数
+    4. 由于使用无界队列，运行中的FixedThreadPool（未执行方法shutdown()或
+       shutdownNow()）不会拒绝任务（不会调用RejectedExecutionHandler.rejectedExecution方法）
+- CachedThreadPool
+    1. CachedThreadPool使用没有容量的SynchronousQueue作为线程池的工作队列
+    2. CachedThreadPool的maximumPool是无界的
+    3. 如果主线程提交任务的速度高于maximumPool中线程处理任务的速度时，CachedThreadPool会不断创建新线程。
+        极端情况下，CachedThreadPool会因为创建过多线程而耗尽CPU和内存资源
+    

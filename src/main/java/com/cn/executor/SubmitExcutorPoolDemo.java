@@ -1,4 +1,4 @@
-package com.cn.thread_pool_executor;
+package com.cn.executor;
 
 import java.util.concurrent.*;
 
